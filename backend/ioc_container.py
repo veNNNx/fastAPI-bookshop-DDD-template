@@ -1,8 +1,6 @@
-from __future__ import annotations
-
 from dependency_injector import containers, providers
 
-from .books import BooksService
+from backend.books.service import BooksService
 
 
 class ApplicationContainer(containers.DeclarativeContainer):
