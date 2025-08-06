@@ -67,11 +67,7 @@ repos:
         name: gitlint
         entry: poetry run gitlint
         language: system
-        args:
-          - --extra-path
-          - extra/gitlint_rules/
-          - --staged
-          - --msg-filename
+        pass_filenames: false
         stages:
           - commit-msg
   - repo: local
@@ -82,8 +78,5 @@ repos:
         entry: gitlint
         always_run: true
         pass_filenames: false
-        args:
-          - --extra-path
-          - extra/gitlint_rules/
         stages:
           - manual
