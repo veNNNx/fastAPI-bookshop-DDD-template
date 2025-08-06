@@ -6,6 +6,9 @@ authors = [
     {name = "veNNNx"}
 ]
 readme = "README.md"
+package-mode = false
+
+
 requires-python = ">=3.11"
 dependencies = [
     "fastapi (>=0.116.1,<0.117.0)",
@@ -19,11 +22,8 @@ dependencies = [
     "databases (>=0.9.0,<0.10.0)",
     "pre-commit (>=4.2.0,<5.0.0)",
     "mypy (>=1.17.1,<2.0.0)",
-    "ruff (>=0.12.7,<0.13.0)"
-]
-packages = [
-    { include = "api" },
-    { include = "backend" }
+    "ruff (>=0.12.7,<0.13.0)",
+    "types-assertpy (>=1.1.0.20250502,<2.0.0.0)"
 ]
 
 

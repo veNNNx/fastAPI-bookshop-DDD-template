@@ -16,6 +16,9 @@ class BookModel(Base):
     author = Column(String)
 
 
+# mypy: disable-error-code=arg-type
+
+
 @define
 class BookTable:
     _session: sessionmaker
@@ -60,7 +63,7 @@ class BookTable:
                 for book_model in book_models
             ]
 
-    def delete_by_id(self, id: int) -> list[Book]:
+    def delete_by_id(self, id: int) -> None:
         with self._session() as db:
             book_model = db.query(BookModel).filter(BookModel.id == id).first()
 

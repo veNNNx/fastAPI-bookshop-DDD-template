@@ -14,7 +14,7 @@ class LoggerSettings(BaseSettings):
 
 
 class UTCFormatter(logging.Formatter):
-    converter = time.gmtime
+    converter = time.gmtime  # type: ignore[assignment]
 
 
 LOGGING_CONFIG = {

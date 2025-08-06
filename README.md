@@ -17,4 +17,4 @@ This project uses [Poetry](https://python-poetry.org/) for dependency and virtua
 ### Install dependencies:
 
 ```bash
-poetry install
+poetry install --no-root

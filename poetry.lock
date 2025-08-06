@@ -897,6 +897,18 @@ typing-extensions = {version = ">=4.10.0", markers = "python_version < \"3.13\""
 full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.18)", "pyyaml"]
 
 [[package]]
+name = "types-assertpy"
+version = "1.1.0.20250502"
+description = "Typing stubs for assertpy"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "types_assertpy-1.1.0.20250502-py3-none-any.whl", hash = "sha256:dc025f53b74b7bd75ecb830755af10261908c57fb20df38fd42caaca427c5aac"},
+    {file = "types_assertpy-1.1.0.20250502.tar.gz", hash = "sha256:7735027f3e63f91a1f3a24819024991358f083a40aceb5dd117e5691e9d4a0de"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.14.1"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -947,4 +959,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11"
-content-hash = "e415864fc26b7a54608362e9072407781c420944cf3c233aa6edca2f3f3ad297"
+content-hash = "03c583f84739e93652a03d4e7a8cba8d4ea02d28d45419efe9ed4af550875670"
