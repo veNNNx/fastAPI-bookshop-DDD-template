@@ -1,40 +1,29 @@
 import pytest
 from dependency_injector import providers
-from sqlalchemy import create_engine, text
+from fastapi.testclient import TestClient
+from sqlalchemy import text
 
-from backend.books import BookTable
-from backend.common import DATABASE_URL, TEST_DB_NAME, Base
-from backend.common.postgres_test import TestingSessionLocal, engine
+from api.api.app_factory import create_app
+from backend.common import Base, Tables, TestingSessionLocal, engine, test_engine
 from backend.ioc_container import ApplicationContainer
 
 
-def override_dbs(container: ApplicationContainer) -> ApplicationContainer:
-    container.books.book_tabel.override(
-        providers.Factory(BookTable, session=TestingSessionLocal)
-    )
-
-    return container
-
-
 def create_test_database():
-    admin_engine = create_engine(DATABASE_URL, isolation_level="AUTOCOMMIT")
-    with admin_engine.connect() as conn:
+    with engine.connect() as conn:
         exists = conn.execute(
-            text(f"SELECT 1 FROM pg_database WHERE datname = '{TEST_DB_NAME}'")
+            text("SELECT 1 FROM pg_database WHERE datname = 'test_postgres'")
         ).scalar()
         if not exists:
-            conn.execute(text(f"CREATE DATABASE {TEST_DB_NAME}"))
-            print("Created database:", TEST_DB_NAME)
+            conn.execute(text("CREATE DATABASE test_postgres"))
+            print("✅ Created test database: test_postgres")
 
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
     create_test_database()
-
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=test_engine)
     yield
-
-    Base.metadata.drop_all(bind=engine)
+    Base.metadata.drop_all(bind=test_engine)
 
 
 @pytest.fixture(scope="session")
@@ -43,11 +32,24 @@ def test_app_container():
     container.init_resources()
     container.wire(packages=["api", "backend"])
 
-    container = override_dbs(container)
+    container.session_factory.override(providers.Singleton(lambda: TestingSessionLocal))
 
-    Base.metadata.create_all(bind=engine)
     yield container
-    Base.metadata.drop_all(bind=engine)
 
     container.shutdown_resources()
-    container.books.book_tabel.reset_override()
+    container.session_factory.reset_override()
+
+
+@pytest.fixture(scope="session")
+def client(test_app_container: ApplicationContainer) -> TestClient:
+    test_app = create_app(test_app_container)
+    return TestClient(test_app)
+
+
+@pytest.fixture(autouse=True)
+def clean_db_after_test():
+    yield
+    with test_engine.connect() as conn:
+        tables = ", ".join(table.value for table in Tables)
+        conn.execute(text(f"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE"))
+        conn.commit()

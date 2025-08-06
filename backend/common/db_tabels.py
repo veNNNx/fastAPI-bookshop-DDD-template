@@ -1,5 +1,5 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class Tables(Enum):
+class Tables(StrEnum):
     BOOKS_TABLE = "books"

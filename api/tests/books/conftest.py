@@ -1,10 +1,9 @@
-# from fastapi.testclient import TestClient
-# from pytest import fixture
+from fastapi.testclient import TestClient
+from pytest import fixture
 
-# from api.tests.books.steps import Steps
-# from backend.ioc_container import ApplicationContainer
+from .steps import Steps
 
 
-# @fixture
-# def steps(container: ApplicationContainer, test_app: TestClient) -> Steps:
-#     return Steps(books_service=container.books_service(), test_app=test_app)
+@fixture
+def steps(client: TestClient) -> Steps:
+    return Steps(client)
