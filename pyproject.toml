@@ -25,6 +25,7 @@ types-assertpy = ">=1.1.0.20250502,<2.0.0.0"
 gitlint = ">=0.19.1,<0.20.0"
 httpx = "^0.28.1"
 psycopg2-binary = "^2.9.7"
+asyncpg = "^0.30.0"
 
 
 [build-system]
