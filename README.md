@@ -12,6 +12,16 @@ A clean FastAPI project template using **Domain-Driven Design (DDD)** architectu
 - **Poetry** – modern dependency and virtual environment management  
 - **Pre-commit hooks** – automated code quality checks and formatting before commits  
 
+## Continuous Integration (CI) with GitHub Actions
+To automate testing and code quality checks, this project includes a GitHub Actions workflow that:
+
+> Runs on every pull request
+- Sets up a PostgreSQL 15 service
+- Installs Python 3.11 and Poetry
+- Installs dependencies
+- Runs pre-commit hooks for linting/formatting checks
+- Executes the test suite with pytest
+
 ## Dependency Management (Poetry)
 
 This project uses [Poetry](https://python-poetry.org/) for dependency and virtual environment management.
