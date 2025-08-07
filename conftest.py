@@ -10,12 +10,13 @@ from backend.ioc_container import ApplicationContainer
 
 def create_test_database():
     with engine.connect() as conn:
+        conn = conn.execution_options(isolation_level="AUTOCOMMIT")
         exists = conn.execute(
             text("SELECT 1 FROM pg_database WHERE datname = 'test_postgres'")
         ).scalar()
         if not exists:
             conn.execute(text("CREATE DATABASE test_postgres"))
-            print("✅ Created test database: test_postgres")
+            print("Created test database: test_postgres")
 
 
 @pytest.fixture(scope="session", autouse=True)
