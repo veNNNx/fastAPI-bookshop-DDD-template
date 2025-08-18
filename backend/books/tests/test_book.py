@@ -2,6 +2,7 @@ import pytest
 from assertpy import assert_that
 
 from ..src.application.book_service import BookService
+from ..src.domain.exceptions import InvalidTitleException
 from ..src.infrastructure.exceptions import BookNotFoundException
 
 
@@ -18,6 +19,16 @@ class TestBook:
 
         assert_that(book.author).is_equal_to(author)
         assert_that(book.title).is_equal_to(title)
+
+    @pytest.mark.parametrize(
+        "title",
+        ["", "A" * 201, "Test\nnew line"],
+    )
+    def test_book_create_fails_on_invalid_title(
+        self, book_service: BookService, title: str
+    ) -> None:
+        with pytest.raises(InvalidTitleException):
+            book_service.create(author="author", title=title)
 
     @pytest.mark.usefixtures("create_book")
     def test_get_book_by_id(self, book_service: BookService) -> None:
